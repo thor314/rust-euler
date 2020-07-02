@@ -1,0 +1,74 @@
+The number, 197, is called a circular prime because all
+rotations of the digits: 197, 971, and 719, are themselves
+prime. There are thirteen such primes below 100: 2, 3, 5, 7,
+11, 13, 17, 31, 37, 71, 73, 79, and 97. How many circular
+primes are there below one million?
+
+So let's try this shall we.
+* Del en: caller fn
+Caller function. Needs to generate primes between 1 and 1m
+with only odd digits. Going to need [[https://huonw.github.io/primal/primal/][this primes crate.]]
+#+begin_src rust :tangle yes
+fn e() -> u32{
+  use primal;
+  let candidates: Vec<u32> = primal::Primes::all()
+	  .take_while(|p| p < 1000000)
+		.filter(|p| is_odd_digits(p))
+		.filter(|p| is_cycle_prime(p))
+		.for_each(|p| println!("{}",p))
+		.collect();
+
+		candidates.len() as u32
+}
+#+end_src
+Errors:
+Forgot to cast to u32. I wonder if this is idiomatic, or if
+I should use an `into`?
+Says no primal in root, wonder what it thinks the root is?
+Besides that, we get the expected, can't find our two
+predicates.
+
+So we have our work set out for us. Write two predicates.
+
+* Del to: is_odd_digits
+#+begin_src rust :tangle yes
+fn is_odd_digits(p: &u32) -> bool{
+  // true if p is composed solely of odd digits.
+	let s: &str = &format!("{}", p); // 0
+  // 1
+	!s.contains("0") && !s.contains("0") && !s.contains("0") && !s.contains("0") && !s.contains("0")
+}
+#+end_src
+
+1. I wonder if this is the best way to find whether an
+   integer contains a digit. Also, I don't recall the
+   process to decide whether this is better as a String or
+   &str type.
+	 1. I think the String type goes on the heap, meaning that
+			if I want to change it's contents in the future, the
+      String is the better choice. As this is not the case,
+      let's go with &str.
+2. I wonder if, given my method, whether this is the most
+   idiomatic way to check if a string contains one of 5
+   characters. I could conceivably write a macro for
+   repeated arguments, but that seems overkill.
+
+Other function time.
+
+* Del tre
+#+begin_src rust :tangle yes
+
+fn is_cycle_prime(p: &u32) -> bool{
+  use primal;
+  // if every cyclic permutation of p is prime, give true.
+  let mut s: String = format!("{}", p);
+	for i in 1..s.len(){
+	  if !is_prime(s[i..].push(s[..i]) as u32){
+		  return false;
+    }
+	}
+	true
+}
+#+end_src
+
+#+RESULTS:

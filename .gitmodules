@@ -1,0 +1,36 @@
+[submodule "e01"]
+	path = e01
+	url = ./
+[submodule "e02"]
+	path = e02
+	url = ./
+[submodule "e03"]
+	path = e03
+	url = ./
+[submodule "e04"]
+	path = e04
+	url = ./
+[submodule "e22"]
+	path = e22
+	url = ./
+[submodule "e23"]
+	path = e23
+	url = ./
+[submodule "e24"]
+	path = e24
+	url = ./
+[submodule "e27"]
+	path = e27
+	url = ./
+[submodule "e30"]
+	path = e30
+	url = ./
+[submodule "e31"]
+	path = e31
+	url = ./
+[submodule "e32"]
+	path = e32
+	url = ./
+[submodule "e33"]
+	path = e33
+	url = ./
